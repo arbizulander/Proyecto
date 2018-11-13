@@ -18,7 +18,7 @@ class HiloPrioridad1 extends Thread {
 	}
 }
 
-public class EjemploHiloPrioridad1 {
+public class HiloPrioridad {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -48,3 +48,4 @@ public class EjemploHiloPrioridad1 {
 	}
 
 }
+
