@@ -21,6 +21,12 @@ import java.awt.Button;
 import java.awt.Font;
 
 public class Menu extends Applet implements Runnable{
+	
+	int x = 0;
+	int y = 0;
+	int dx = 2;
+	int dy = 2;
+	int radious = 10;
 
 	/**
 	 * 
@@ -34,7 +40,22 @@ public class Menu extends Applet implements Runnable{
 	
 	@Override
 	public void start() {
-		
+		Thread thread = new Thread(this);
+		thread.start();
+	}
+	
+	@Override
+	public void run() {	
+		//Thread information
+		while (true) {
+			repaint();
+			try {
+				Thread.sleep(17);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
+		}	
 	}
 	
 	@Override
@@ -52,12 +73,6 @@ public class Menu extends Applet implements Runnable{
 	
 	}
 
-	@Override
-	public void run() {
-		
-		
-	}
-	
 	
 	
 	

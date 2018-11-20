@@ -13,7 +13,7 @@ public class tetris extends Applet implements KeyListener {
 	/**
 		 * 
 		 */
-		private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 	public final byte WIDTH = 20; // pixels
 	public final byte HEIGHT = 20;
 	public final byte V_NUMBER = 20;
