@@ -2,12 +2,16 @@ package game;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.util.Random;
+
+import javax.swing.ImageIcon;
 
 public class Ground {
 
 	int dx;
 	int x,y,width,height;
+	private ImageIcon img; 
 	
 	public Ground () {
 		dx = -5;
@@ -22,9 +26,11 @@ public class Ground {
 		this.y = y;
 		width = 120;
 		height = 40;
-		dx = - 5;
+		dx = - 5;		
+		img = new ImageIcon("C:\\Users\\ik_2dm3\\Desktop\\Proyecto_PSP\\Proyecto\\res\\img\\Char_Mario1.gif");
 	}
 	
+
 public void update(StartingPoint sp, Jugador pr) {
 	
 		x += dx;
@@ -58,6 +64,9 @@ public void update(StartingPoint sp, Jugador pr) {
 		g.setColor(Color.BLUE);
 		g.fillRect(x, y, width, height);
 		//g.drawRect(x, y, width, height);
+		
+		//Dibujar icono usando se metodo paintIcon 
+		//img.paintIcon(this, g, 180, 0); 
 	}
 	
 }
