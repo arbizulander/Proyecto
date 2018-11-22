@@ -1,27 +1,22 @@
 package game;
 
 import java.applet.Applet;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.Random;
 
-public class StartingPoint extends Applet implements Runnable{
+public class StartingPoint extends Applet implements Runnable, KeyListener {
 
-	//Coordenadas
-	int x = 400;
-	int y = 25;
-	int dx = 15;
-	int dy = 0;
-	int radious = 40;
-	
 	private Image i;
 	private Graphics doubleG;
-
-	//Fisicas
-	double gravity = 15;
-	double energyloss = .65;
-	double xFriction = .9;
-	double dt = .2;
+	
+	Jugador personaje1;
+	//Jugador personaje2;
+	
+	Ground p[] = new Ground [7];
+	Coin c[] = new Coin [3];
 	
 	/**
 	 * 
@@ -31,10 +26,23 @@ public class StartingPoint extends Applet implements Runnable{
 	@Override
 	public void init() {
 		setSize (800,600);
+		addKeyListener(this);
 	}
 	
 	@Override
 	public void start() {
+		personaje1 = new Jugador();
+		
+		for (int i = 0; i<p.length; i++) {
+			Random r = new Random ();
+			p[i] = new Ground(getWidth()+200*i, getHeight()-40 - r.nextInt(400));
+		}
+		
+		for (int i = 0; i<c.length; i++) {
+			Random r = new Random ();
+			c[i] = new GravUp(getWidth()+2000*i);
+		}
+		
 		Thread thread = new Thread(this);
 		thread.start();
 	}
@@ -44,37 +52,22 @@ public class StartingPoint extends Applet implements Runnable{
 		//Thread information
 		while (true) {
 			
-			if (x+dx > this.getWidth()-radious) {
-				x = this.getWidth()-radious-1;
-				dx =- dx;
-			}else if (x+dx < 0){
-				x = 0;
-				dx =- dx;
-			}
-			else {
-				x += dx;
-			}
-			
-			if (y == this.getHeight()-radious-1) {
-				dx *= xFriction;
-				if (Math.abs(dx) < .8) {
-					dx = 0;
+			for (int i = 0; i < c.length; i++) {
+				if (c[i].getY() == this.getHeight() + 100) {
+					c[i]= null;
+					c[i]=new GravUp (getWidth());
 				}
 			}
 			
-			if (y > this.getHeight()-radious-1) {
-				y = this.getHeight() - radious -1;
-				dy *= energyloss;
-				dy = -dy;
-			}
-			else {
-				//velocidad
-				dy += gravity * dt;
-				
-				//posicion
-				y += dy*dt + .5*gravity*dt*dt;
+			personaje1.update(this);			
+
+			for (int i = 0; i < p.length; i++) {
+				p[i].update(this, personaje1);
 			}
 			
+			for (int i = 0; i < c.length; i++) {
+				c[i].update(this, personaje1);
+			}
 			
 			repaint();
 			try {
@@ -115,8 +108,48 @@ public class StartingPoint extends Applet implements Runnable{
 	
 	@Override
 	public void paint(Graphics g) {
-		g.setColor(Color.GREEN);
-		g.fillOval(x, y, radious, radious);
+		personaje1.paint(g);
+		
+		for (int i = 0; i < p.length; i++) {
+			p[i].paint(g);
+		}
+		
+		for (int i = 0; i < c.length; i++) {
+			c[i].paint(g);
+		}
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		switch(e.getKeyCode()) {
+		
+		case KeyEvent.VK_LEFT:
+			personaje1.moveLeft();
+			break;
+			
+		case KeyEvent.VK_RIGHT:
+			personaje1.moveRight();
+			break;
+			
+		case KeyEvent.VK_UP:
+			personaje1.moveUp();
+			break;
+		
+		}
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	
