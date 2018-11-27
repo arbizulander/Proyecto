@@ -3,21 +3,21 @@ package game;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class GravUp extends Coin{
+public class AgilUp extends Coin{
 
-	public GravUp(int x) {
+	public AgilUp(int x) {
 		super(x);
 		// TODO Auto-generated constructor stub
 	}
 
 	public void performAction(Jugador j) {
-		j.setGravity(j.getGravity()+3);
+		if (j.getAgility() < 8) {
+			j.setAgility(j.getAgility() + 1);
+		}		
 	}
 	
 	public void paint (Graphics g) {
-		g.setColor(Color.RED);
+		g.setColor(Color.ORANGE);
 		super.paint(g);
-		
-	}
-	
+	}	
 }

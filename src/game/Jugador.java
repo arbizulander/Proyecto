@@ -3,6 +3,7 @@ package game;
 import java.awt.Color;
 import java.awt.Graphics;
 
+
 public class Jugador {
 	
 	//Coordenadas
@@ -19,6 +20,9 @@ public class Jugador {
 	private double dt = .2;
 	private double gameDy = -75;
 	
+	private int agility = 1;
+	private int maxSpeed = 20;
+	
 
 	public Jugador () {
 		
@@ -31,15 +35,15 @@ public class Jugador {
 	
 	//movimiento a la derecha
 	public void moveRight() {
-		if (dx+1<20) {
-			dx+=1;
+		if (dx + agility < maxSpeed) {
+			dx+=agility;
 		}
 	}
 	
 	//movimiento a la izquierda
 	public void moveLeft() {
-		if (dx-1>-20) {
-			dx-=1;
+		if (dx - agility > - maxSpeed) {
+			dx-=agility;
 		}
 	}
 	
@@ -118,8 +122,13 @@ public class Jugador {
 		return dt;
 	}
 	public double getGameDy() {
-		return gameDy;
-		
+		return gameDy;	
+	}
+	public int getAgility() {
+		return agility;
+	}
+	public int getMaxSpeed() {
+		return maxSpeed;
 	}
 
 	//Setters
@@ -152,6 +161,12 @@ public class Jugador {
 	}
 	public void setGameDy (double gameDy) {
 		this.gameDy = gameDy;
+	}
+	public void setAgility(int agility) {
+		this.agility = agility;
+	}
+	public void setMaxSpeed(int maxSpeed) {
+		this.maxSpeed = maxSpeed;
 	}
 	
 }

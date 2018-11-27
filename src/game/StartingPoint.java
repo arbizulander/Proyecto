@@ -1,11 +1,15 @@
 package game;
 
 import java.applet.Applet;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.net.URL;
 import java.util.Random;
+
 
 public class StartingPoint extends Applet implements Runnable, KeyListener {
 
@@ -17,6 +21,12 @@ public class StartingPoint extends Applet implements Runnable, KeyListener {
 	
 	Ground p[] = new Ground [7];
 	Coin c[] = new Coin [3];
+	private int score;
+	double cityX = 0;
+	double cityDx = 3;
+	
+	URL url;
+	Image city;
 	
 	/**
 	 * 
@@ -27,11 +37,20 @@ public class StartingPoint extends Applet implements Runnable, KeyListener {
 	public void init() {
 		setSize (800,600);
 		addKeyListener(this);
+		try {
+			url = getDocumentBase();
+			System.out.println("RUTA: "+url);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		city = getImage(url, "images/back3.png");
 	}
 	
 	@Override
 	public void start() {
 		personaje1 = new Jugador();
+		score = 0;
 		
 		for (int i = 0; i<p.length; i++) {
 			Random r = new Random ();
@@ -40,6 +59,24 @@ public class StartingPoint extends Applet implements Runnable, KeyListener {
 		
 		for (int i = 0; i<c.length; i++) {
 			Random r = new Random ();
+			
+			switch (r.nextInt(5)) {
+			case 0:
+				c[i]=new GravUp (getWidth()+2000*i);
+				break;
+			case 1:
+				c[i]=new GravDown (getWidth()+2000*i);
+				break;
+			case 2:
+				c[i]=new AgilUp (getWidth()+2000*i);
+				break;
+			case 3:
+				c[i]=new AgilDown (getWidth()+2000*i);
+				break;	
+			case 4:
+				c[i]=new Score (getWidth()+2000*i, this);
+				break;				
+			}	
 			c[i] = new GravUp(getWidth()+2000*i);
 		}
 		
@@ -52,10 +89,38 @@ public class StartingPoint extends Applet implements Runnable, KeyListener {
 		//Thread information
 		while (true) {
 			
+			if (cityX > getWidth()*-1) {
+				cityX -= cityDx;
+			}
+			else {
+				cityX = 0;
+			}
+			
+			score++;
+			Random r = new Random();
+			
+			
 			for (int i = 0; i < c.length; i++) {
 				if (c[i].getY() == this.getHeight() + 100) {
 					c[i]= null;
-					c[i]=new GravUp (getWidth());
+					switch (r.nextInt(5)) {
+					case 0:
+						c[i]=new GravUp (getWidth() + 10* r.nextInt(500));
+						break;
+					case 1:
+						c[i]=new GravDown (getWidth()+ 10* r.nextInt(500));
+						break;
+					case 2:
+						c[i]=new AgilUp (getWidth()+ 10* r.nextInt(500));
+						break;
+					case 3:
+						c[i]=new AgilDown (getWidth()+ 10* r.nextInt(500));
+						break;	
+					case 4:
+						c[i]=new Score (getWidth()+ 10* r.nextInt(500), this);
+						break;
+						
+					}
 				}
 			}
 			
@@ -108,7 +173,11 @@ public class StartingPoint extends Applet implements Runnable, KeyListener {
 	
 	@Override
 	public void paint(Graphics g) {
-		personaje1.paint(g);
+				
+		g.setColor(new Color(15, 77, 147));
+		g.fillRect(0, 0, getWidth(), getHeight());
+		g.drawImage(city,(int) cityX,0, this);
+		g.drawImage(city,(int) cityX+getWidth(),0, this);
 		
 		for (int i = 0; i < p.length; i++) {
 			p[i].paint(g);
@@ -117,6 +186,15 @@ public class StartingPoint extends Applet implements Runnable, KeyListener {
 		for (int i = 0; i < c.length; i++) {
 			c[i].paint(g);
 		}
+		
+		personaje1.paint(g);
+		String sc = Integer.toString(score);
+		Font font = new Font("Serif", Font.BOLD, 32);
+		g.setFont(font);
+		g.setColor(Color.BLACK);
+		g.drawString(sc, getWidth() -150+1, 50+1);
+		g.setColor(Color.GRAY);
+		g.drawString(sc, getWidth() -150, 50);
 	}
 
 	@Override
@@ -152,5 +230,18 @@ public class StartingPoint extends Applet implements Runnable, KeyListener {
 		
 	}
 
+	//Getters
+	public int getScore() {
+		return score;
+	}
+
+	
+	//Setters
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	
+	
 	
 }

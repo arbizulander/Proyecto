@@ -51,7 +51,7 @@ public class Coin {
 		}
 	}
 
-	private void performAction(Jugador pr) {
+	public void performAction(Jugador pr) {
 		// TODO Auto-generated method stub
 		pr.setGravity(pr.getGravity()+3);
 	}
