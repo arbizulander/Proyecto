@@ -2,12 +2,17 @@ package game;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.net.URL;
 import java.util.Random;
 
 public class Ground {
 
 	int dx;
 	int x,y,width,height;
+	Image plat;
+	URL url;
+	float frame = 0;
 	
 	public Ground () {
 		dx = -5;
@@ -22,12 +27,20 @@ public class Ground {
 		this.y = y;
 		width = 120;
 		height = 40;
-		dx = - 5;		
-		
+		dx = - 5;
+		plat = Pictures.platform;
 	}
 	
 
 public void update(StartingPoint sp, Jugador pr) {
+	
+		int tester = (int)(frame + .1);
+		if (tester < 3) {
+			frame += .1;
+		}
+		else {
+			frame = 0;
+		}
 	
 		x += dx;
 		checkCollision(pr);
@@ -59,6 +72,9 @@ public void update(StartingPoint sp, Jugador pr) {
 	public void paint(Graphics g){
 		g.setColor(Color.BLUE);
 		g.fillRect(x, y, width, height);
+		
+		//g.drawImage(plat, x, y, Pictures.sp);
+		g.drawImage(plat, x, y, x + width, y + height, 0, 40*(int)frame,120, 40*(int)frame+40, Pictures.sp);
 		//g.drawRect(x, y, width, height);
 		
 		//Dibujar icono usando se metodo paintIcon 

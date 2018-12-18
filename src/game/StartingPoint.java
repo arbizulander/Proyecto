@@ -23,7 +23,9 @@ public class StartingPoint extends Applet implements Runnable, KeyListener {
 	Coin c[] = new Coin [3];
 	private int score;
 	double cityX = 0;
-	double cityDx = 3;
+	
+	//velocidad de movimiento para la imagen de fondo
+	double cityDx = 1;
 	
 	URL url;
 	Image city;
@@ -45,6 +47,7 @@ public class StartingPoint extends Applet implements Runnable, KeyListener {
 			e.printStackTrace();
 		}
 		city = getImage(url, "images/back3.png");
+		Pictures p = new Pictures(this);
 	}
 	
 	@Override
