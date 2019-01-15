@@ -2,19 +2,24 @@ package game;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.net.URL;
 import java.util.Random;
 
 public class Coin {
 	
 	private int x, y, dx, radious;
 	private StartingPoint sp;
+	Image coinimg;
+
 	
 	public Coin (int x) {
 		this.x = x;
 		Random r = new Random();
 		y = r.nextInt(400)+radious;
-		radious = 20;
+		radious = 40;
 		dx = -2;
+		coinimg = Pictures.ball;
 		
 	}
 
@@ -48,6 +53,7 @@ public class Coin {
 			performAction(pr);
 			x = 0;
 			y = sp.getHeight() + 100;
+			Pictures.coin.play();
 		}
 	}
 
@@ -58,7 +64,8 @@ public class Coin {
 
 	public void paint(Graphics g){
 		//g.setColor(Color.BLACK);
-		g.fillOval(x, y, radious, radious);
+		//g.fillOval(x, y, radious, radious);
+		g.drawImage(coinimg, x, y, radious, radious, null, Pictures.sp);
 		//g.drawRect(x, y, width, height);
 	}
 	

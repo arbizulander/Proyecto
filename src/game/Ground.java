@@ -65,6 +65,7 @@ public void update(StartingPoint sp, Jugador pr) {
 				double newDY = pr.getDy()*-1;
 				pr.setY(y-radious);
 				pr.setDy(newDY);
+				//Pictures.coin.play();
 			}			
 		}
 	}
